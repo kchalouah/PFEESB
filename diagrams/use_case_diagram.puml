@@ -1,0 +1,95 @@
+@startuml
+' Use Case Diagram for PfeAziz Application
+
+' Actors
+actor "User" as user
+actor "Administrator" as admin
+actor "Controleur" as controleur
+actor "Operateur" as operateur
+actor "Delegue" as delegue
+
+' Use Cases
+package "Authentication" {
+  usecase "Login" as login
+  usecase "Logout" as logout
+  usecase "Manage Users" as manageUsers
+  usecase "Manage Roles" as manageRoles
+}
+
+package "Reference Data Management" {
+  usecase "Manage Ilots" as manageIlots
+  usecase "Manage Machines" as manageMachines
+  usecase "Manage Metiers" as manageMetiers
+  usecase "Manage Programmes" as manageProgrammes
+}
+
+package "Demand Management" {
+  usecase "Create Demand" as createDemand
+  usecase "View Demands" as viewDemands
+  usecase "Update Demand" as updateDemand
+  usecase "Delete Demand" as deleteDemand
+  usecase "Export Demands to Excel" as exportDemands
+  usecase "Start Control" as startControl
+  usecase "Finish Control" as finishControl
+  usecase "Record Result" as recordResult
+}
+
+package "Delegue Demand Management" {
+  usecase "Create Delegue Demand" as createDemandeDelegue
+  usecase "View Delegue Demands" as viewDemandesDelegue
+  usecase "Update Delegue Demand" as updateDemandeDelegue
+  usecase "Delete Delegue Demand" as deleteDemandeDelegue
+  usecase "Export Delegue Demands to Excel" as exportDemandesDelegue
+}
+
+package "Finale Demand Management" {
+  usecase "Create Finale Demand" as createDemandeFinale
+  usecase "View Finale Demands" as viewDemandesFinale
+  usecase "Update Finale Demand" as updateDemandeFinale
+  usecase "Delete Finale Demand" as deleteDemandeFinale
+  usecase "Export Finale Demands to Excel" as exportDemandesFinale
+}
+
+package "TE Demand Management" {
+  usecase "Create TE Demand" as createDemandeTe
+  usecase "View TE Demands" as viewDemandesTe
+  usecase "Update TE Demand" as updateDemandeTe
+  usecase "Delete TE Demand" as deleteDemandeTe
+  usecase "Export TE Demands to Excel" as exportDemandesTe
+}
+
+' Relationships
+user --> login
+user --> logout
+
+admin --> manageUsers
+admin --> manageRoles
+admin --> manageIlots
+admin --> manageMachines
+admin --> manageMetiers
+admin --> manageProgrammes
+admin --> exportDemands
+admin --> exportDemandesDelegue
+admin --> exportDemandesFinale
+admin --> exportDemandesTe
+
+operateur --> createDemand
+operateur --> viewDemands
+
+controleur --> viewDemands
+controleur --> updateDemand
+controleur --> startControl
+controleur --> finishControl
+controleur --> recordResult
+
+delegue --> createDemandeDelegue
+delegue --> viewDemandesDelegue
+delegue --> updateDemandeDelegue
+
+' Inheritance
+admin --|> user
+controleur --|> user
+operateur --|> user
+delegue --|> user
+
+@enduml
