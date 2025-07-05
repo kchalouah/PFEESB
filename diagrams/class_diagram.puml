@@ -57,15 +57,15 @@ abstract class BaseDemande {
 }
 
 class Demande {
-  -String operateur
-  -String ilot
-  -String metier
+  -App_user operateur
+  -Ilot ilot
+  -Metier metier
   -String date
   -String time
-  -String controleur
+  -App_user controleur
   -String etq
   -String defaut
-  -String programme
+  -Programme programme
   -Boolean urgent
   -String sn
   -String of_demande
@@ -76,14 +76,14 @@ class Demande {
 
 class DemandeDelegue {
   -String of_demande
-  -String ilot
-  -String metier
-  -String date_demande
-  -String time_demande
-  -String controleur
+  -Ilot ilot
+  -Metier metier
+  -String date
+  -String time
+  -App_user controleur
   -String etq
   -String defaut
-  -String programme
+  -Programme programme
   -Boolean urgent
   -String sn
   -String nombre_produit_controle
@@ -93,8 +93,8 @@ class DemandeDelegue {
 
 class DemandeFinale {
   -String of_demande
-  -String ilot
-  -String metier
+  -Ilot ilot
+  -Metier metier
   -String date
   -String time
   -String controleur
@@ -122,20 +122,22 @@ class DemandeTe {
 
 ' Relationships
 App_user "1" -- "many" User_Role : has >
-Demande -- Ilot : references >
-Demande -- Metier : references >
-Demande -- Programme : references >
-DemandeDelegue -- Ilot : references >
-DemandeDelegue -- Metier : references >
-DemandeDelegue -- Programme : references >
-DemandeFinale -- Ilot : references >
-DemandeFinale -- Metier : references >
-DemandeFinale -- Programme : references >
-DemandeTe -- Machine : references >
-DemandeTe -- Programme : references >
-DemandeTe -- Ilot : references >
+Demande "many" -- "1" App_user : operateur >
+Demande "many" -- "1" App_user : controleur >
+Demande "many" -- "1" Ilot : belongs to >
+Demande "many" -- "1" Metier : has >
+Demande "many" -- "1" Programme : uses >
+
+DemandeDelegue "many" -- "1" App_user : controleur >
+DemandeDelegue "many" -- "1" Ilot : belongs to >
+DemandeDelegue "many" -- "1" Metier : has >
+DemandeDelegue "many" -- "1" Programme : uses >
+
+DemandeFinale "many" -- "1" Ilot : belongs to >
+DemandeFinale "many" -- "1" Metier : has >
 
 ' Note: The actual implementation doesn't use inheritance, but it would be a good design improvement
 note "Note: BaseDemande is a suggested abstract class that could be used to reduce code duplication" as N1
+note "Note: There are inconsistencies in the model design - some classes use object references while others use strings for the same concepts" as N2
 
 @enduml

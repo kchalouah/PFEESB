@@ -6,6 +6,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
 
 @Entity
@@ -15,8 +17,13 @@ public class DemandeFinale implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String of_demande;
-    private String ilot;
-    private String metier;
+
+    @ManyToOne
+    @JoinColumn(name = "ilot_id")
+    private Ilot ilot;
+    @ManyToOne
+    @JoinColumn(name = "metier_id")
+    private Metier metier;
     private String date_demande;
     private String time_demande;
     private String controleur;
@@ -66,28 +73,28 @@ public class DemandeFinale implements Serializable {
     /**
      * @return the ilot
      */
-    public String getIlot() {
+    public Ilot getIlot() {
         return ilot;
     }
 
     /**
      * @param ilot the ilot to set
      */
-    public void setIlot(String ilot) {
+    public void setIlot(Ilot ilot) {
         this.ilot = ilot;
     }
 
     /**
      * @return the metier
      */
-    public String getMetier() {
+    public Metier getMetier() {
         return metier;
     }
 
     /**
      * @param metier the metier to set
      */
-    public void setMetier(String metier) {
+    public void setMetier(Metier metier) {
         this.metier = metier;
     }
 
@@ -100,7 +107,7 @@ public class DemandeFinale implements Serializable {
 
     /**
      * @param date
-     
+
      */
     public void setDate(String date) {
         this.date_demande = date;
@@ -343,8 +350,8 @@ public class DemandeFinale implements Serializable {
     public void setHidden(Boolean hidden) {
         this.hidden = hidden;
     }
-    
-    
-    
-    
+
+
+
+
  }

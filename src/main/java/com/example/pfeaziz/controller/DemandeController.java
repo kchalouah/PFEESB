@@ -89,12 +89,12 @@ public class DemandeController {
             int rowNum = 1;
             for (Demande demande : demandes) {
                 Row row = sheet.createRow(rowNum++);
-                row.createCell(0).setCellValue(demande.getOperateur() != null ? demande.getOperateur() : "N/A");
+                row.createCell(0).setCellValue(demande.getOperateur() != null ? demande.getOperateur().getUsername() : "N/A");
                 row.createCell(1).setCellValue(demande.getOf_demande() != null ? demande.getOf_demande() : "N/A");
                 row.createCell(2).setCellValue(demande.getSn() != null ? demande.getSn() : "N/A");
-                row.createCell(3).setCellValue(demande.getIlot() != null ? demande.getIlot() : "N/A");
-                row.createCell(4).setCellValue(demande.getMetier() != null ? demande.getMetier() : "N/A");
-                row.createCell(5).setCellValue(demande.getProgramme() != null ? demande.getProgramme() : "N/A");
+                row.createCell(3).setCellValue(demande.getIlot() != null ? demande.getIlot().getName() : "N/A");
+                row.createCell(4).setCellValue(demande.getMetier() != null ? demande.getMetier().getName() : "N/A");
+                row.createCell(5).setCellValue(demande.getProgramme() != null ? demande.getProgramme().getName() : "N/A");
 
                 // Set date cell
                 if (demande.getDate() != null) {
@@ -106,7 +106,7 @@ public class DemandeController {
                 }
 
                 row.createCell(7).setCellValue(demande.getTime() != null ? demande.getTime() : "N/A");
-                row.createCell(8).setCellValue(demande.getControleur() != null ? demande.getControleur() : "N/A");
+                row.createCell(8).setCellValue(demande.getControleur() != null ? demande.getControleur().getUsername() : "N/A");
                 row.createCell(9).setCellValue(demande.getQuantite_controle_metier() != null ? demande.getQuantite_controle_metier() : "N/A");
                 row.createCell(10).setCellValue(demande.getQuantite_non_conforme() != null ? demande.getQuantite_non_conforme() : "N/A");
                 row.createCell(11).setCellValue(demande.getStatus() != null ? demande.getStatus() : "N/A");

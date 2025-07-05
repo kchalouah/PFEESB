@@ -38,19 +38,19 @@ public class ExcelExportService {
             for (Demande demande : demandes) {
                 Row row = sheet.createRow(rowNum++);
                 row.createCell(0).setCellValue(demande.getId());
-                row.createCell(1).setCellValue(demande.getOperateur());
-                row.createCell(2).setCellValue(demande.getIlot());
-                row.createCell(3).setCellValue(demande.getMetier());
+                row.createCell(1).setCellValue(demande.getOperateur() != null ? demande.getOperateur().getUsername() : "N/A");
+                row.createCell(2).setCellValue(demande.getIlot() != null ? demande.getIlot().getName() : "N/A");
+                row.createCell(3).setCellValue(demande.getMetier() != null ? demande.getMetier().getName() : "N/A");
                 row.createCell(4).setCellValue(demande.getDate());
                 row.createCell(5).setCellValue(demande.getTime());
-                row.createCell(6).setCellValue(demande.getControleur());
+                row.createCell(6).setCellValue(demande.getControleur() != null ? demande.getControleur().getUsername() : "N/A");
                 row.createCell(7).setCellValue(demande.getStatus());
                 row.createCell(8).setCellValue(demande.getDefaut());
                 row.createCell(9).setCellValue(demande.getStartcontrole());
                 row.createCell(10).setCellValue(demande.getFinishcontrole());
                 row.createCell(11).setCellValue(demande.getDureeDeLaTache());
 
-                row.createCell(15).setCellValue(demande.getProgramme());
+                row.createCell(15).setCellValue(demande.getProgramme() != null ? demande.getProgramme().getName() : "N/A");
             }   // Adjust column width
             for (int i = 0; i < 17; i++) {
                 sheet.autoSizeColumn(i);

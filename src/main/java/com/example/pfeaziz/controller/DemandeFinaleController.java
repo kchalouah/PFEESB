@@ -94,8 +94,8 @@ public class DemandeFinaleController {
                 row.createCell(0).setCellValue(demandeFinale.getControleur() != null ? demandeFinale.getControleur() : "N/A");
                 row.createCell(1).setCellValue(demandeFinale.getOf_demande() != null ? demandeFinale.getOf_demande() : "N/A");
                 row.createCell(2).setCellValue(demandeFinale.getSn() != null ? demandeFinale.getSn() : "N/A");
-                row.createCell(3).setCellValue(demandeFinale.getIlot() != null ? demandeFinale.getIlot() : "N/A");
-                row.createCell(4).setCellValue(demandeFinale.getMetier() != null ? demandeFinale.getMetier() : "N/A");
+                row.createCell(3).setCellValue(demandeFinale.getIlot() != null ? demandeFinale.getIlot().getName() : "N/A");
+                row.createCell(4).setCellValue(demandeFinale.getMetier() != null ? demandeFinale.getMetier().getName() : "N/A");
                 row.createCell(5).setCellValue(demandeFinale.getProgramme() != null ? demandeFinale.getProgramme() : "N/A");
 
                 // Handle date formatting for Excel

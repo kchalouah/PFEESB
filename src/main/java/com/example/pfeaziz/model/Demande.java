@@ -5,6 +5,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Demande implements Serializable {
@@ -12,13 +14,24 @@ public class Demande implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String operateur;
+
+    @ManyToOne
+    @JoinColumn(name = "operateur_id")
+    private App_user operateur;
     private String of_demande;
-    private String ilot;
-    private String metier;
+
+    @ManyToOne
+    @JoinColumn(name = "ilot_id")
+    private Ilot ilot;
+    @ManyToOne
+    @JoinColumn(name = "metier_id")
+    private Metier metier;
     private String date_demande;
     private String time_demande;
-    private String controleur;
+
+    @ManyToOne
+    @JoinColumn(name = "controleur_id")
+    private App_user controleur;
     private String status;      // Status field (conforme or non conforme)
     private String etq;         // Optional field for ETQ (null if status is conforme)
     private String defaut;      // Optional field for Defaut (null if status is conforme)
@@ -28,7 +41,10 @@ public class Demande implements Serializable {
     private Boolean startClicked; // Changed from String to Boolean
     private Boolean finishClicked; // Changed from String to Boolean
     private Boolean resultatClicked;
-    private String programme;
+
+    @ManyToOne
+    @JoinColumn(name = "programme_id")
+    private Programme programme;
     private Boolean urgent;
     private String sn;
     private String nombre_produit_controle;
@@ -45,27 +61,27 @@ public class Demande implements Serializable {
         this.id = id;
     }
 
-    public String getOperateur() {
+    public App_user getOperateur() {
         return operateur;
     }
 
-    public void setOperateur(String operateur) {
+    public void setOperateur(App_user operateur) {
         this.operateur = operateur;
     }
 
-    public String getIlot() {
+    public Ilot getIlot() {
         return ilot;
     }
 
-    public void setIlot(String ilot) {
+    public void setIlot(Ilot ilot) {
         this.ilot = ilot;
     }
 
-    public String getMetier() {
+    public Metier getMetier() {
         return metier;
     }
 
-    public void setMetier(String metier) {
+    public void setMetier(Metier metier) {
         this.metier = metier;
     }
 
@@ -85,11 +101,11 @@ public class Demande implements Serializable {
         this.time_demande = time;
     }
 
-    public String getControleur() {
+    public App_user getControleur() {
         return controleur;
     }
 
-    public void setControleur(String controleur) {
+    public void setControleur(App_user controleur) {
         this.controleur = controleur;
     }
 
@@ -159,11 +175,11 @@ public class Demande implements Serializable {
 
 
 
-    public String getProgramme() {
+    public Programme getProgramme() {
         return programme;
     }
 
-    public void setProgramme(String programme) {
+    public void setProgramme(Programme programme) {
         this.programme = programme;
     }
 

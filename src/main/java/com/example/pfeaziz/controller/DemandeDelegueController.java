@@ -90,12 +90,12 @@ public class DemandeDelegueController {
             int rowNum = 1;
             for (DemandeDelegue demandeDelegue : demandesDelegue) {
                 Row row = sheet.createRow(rowNum++);
-                row.createCell(0).setCellValue(demandeDelegue.getControleur() != null ? demandeDelegue.getControleur() : "N/A");
+                row.createCell(0).setCellValue(demandeDelegue.getControleur() != null ? demandeDelegue.getControleur().getUsername() : "N/A");
                 row.createCell(1).setCellValue(demandeDelegue.getOf_demande() != null ? demandeDelegue.getOf_demande() : "N/A");
                 row.createCell(2).setCellValue(demandeDelegue.getSn() != null ? demandeDelegue.getSn() : "N/A");
-                row.createCell(3).setCellValue(demandeDelegue.getIlot() != null ? demandeDelegue.getIlot() : "N/A");
-                row.createCell(4).setCellValue(demandeDelegue.getMetier() != null ? demandeDelegue.getMetier() : "N/A");
-                row.createCell(5).setCellValue(demandeDelegue.getProgramme() != null ? demandeDelegue.getProgramme() : "N/A");
+                row.createCell(3).setCellValue(demandeDelegue.getIlot() != null ? demandeDelegue.getIlot().getName() : "N/A");
+                row.createCell(4).setCellValue(demandeDelegue.getMetier() != null ? demandeDelegue.getMetier().getName() : "N/A");
+                row.createCell(5).setCellValue(demandeDelegue.getProgramme() != null ? demandeDelegue.getProgramme().getName() : "N/A");
 
                 // Handle date format for Excel
                 String formattedDate = "N/A";
@@ -145,4 +145,3 @@ public class DemandeDelegueController {
         return demandeDelegueService.createBatchDemandesDelegue(demandesDelegue);
     }
 }
-
