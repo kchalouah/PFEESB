@@ -33,6 +33,28 @@ public class App_userController {
         this.jwtTokenProvider = jwtTokenProvider;
     }
 
+    @GetMapping
+    public List<App_user> getAllUsers() {
+        return userService.getAllUsers();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<App_user> getUserById(@PathVariable Long id) {
+        Optional<App_user> user = userService.getUserById(id);
+        return user.map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<App_user> updateUser(@PathVariable Long id, @RequestBody App_user user) {
+        if (!userService.existsById(id)) {
+            return ResponseEntity.notFound().build();
+        }
+        user.setId(id);
+        App_user updatedUser = userService.saveUser(user);
+        return ResponseEntity.ok(updatedUser);
+    }
+
     @PostMapping("/register")
     public ResponseEntity<Map<String, Object>> registerUser(@RequestBody App_user user) {
         Map<String, Object> response = new HashMap<>();

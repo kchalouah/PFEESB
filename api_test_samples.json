@@ -1,0 +1,529 @@
+{
+  "auth": {
+    "register": {
+      "url": "http://localhost:8080/api/auth/register",
+      "method": "POST",
+      "body": {
+        "username": "testuser",
+        "password": "password123",
+        "email": "test@example.com",
+        "firstName": "Test",
+        "lastName": "User",
+        "user_roles": [
+          {
+            "id": 1
+          }
+        ]
+      }
+    },
+    "login": {
+      "url": "http://localhost:8080/api/auth/login",
+      "method": "POST",
+      "body": {
+        "username": "testuser",
+        "password": "password123"
+      }
+    },
+    "getAllUsers": {
+      "url": "http://localhost:8080/api/auth",
+      "method": "GET"
+    },
+    "getUserById": {
+      "url": "http://localhost:8080/api/auth/1",
+      "method": "GET"
+    },
+    "updateUser": {
+      "url": "http://localhost:8080/api/auth/1",
+      "method": "PUT",
+      "body": {
+        "username": "updateduser",
+        "password": "newpassword123",
+        "email": "updated@example.com",
+        "firstName": "Updated",
+        "lastName": "User",
+        "user_roles": [
+          {
+            "id": 1
+          }
+        ]
+      }
+    },
+    "deleteUser": {
+      "url": "http://localhost:8080/api/auth/1",
+      "method": "DELETE"
+    },
+    "getAllRoles": {
+      "url": "http://localhost:8080/api/auth/roles",
+      "method": "GET"
+    }
+  },
+  "roles": {
+    "getAllRoles": {
+      "url": "http://localhost:8080/api/roles",
+      "method": "GET"
+    },
+    "getRoleById": {
+      "url": "http://localhost:8080/api/roles/1",
+      "method": "GET"
+    },
+    "createRole": {
+      "url": "http://localhost:8080/api/roles",
+      "method": "POST",
+      "body": {
+        "authority": "ROLE_TEST"
+      }
+    },
+    "deleteRole": {
+      "url": "http://localhost:8080/api/roles/1",
+      "method": "DELETE"
+    }
+  },
+  "demandes": {
+    "getAllDemandes": {
+      "url": "http://localhost:8080/api/demandes",
+      "method": "GET"
+    },
+    "getDemandeById": {
+      "url": "http://localhost:8080/api/demandes/1",
+      "method": "GET"
+    },
+    "createDemande": {
+      "url": "http://localhost:8080/api/demandes",
+      "method": "POST",
+      "body": {
+        "controleur": "Test Controleur",
+        "of_demande": "OF123",
+        "sn": "SN123",
+        "programme": "Test Programme",
+        "date": "2023-05-15",
+        "time": "10:30",
+        "status": "Pending",
+        "etq": "ETQ123",
+        "defaut": "None",
+        "startcontrole": "10:30",
+        "finishcontrole": "11:30",
+        "dureeDeLaTache": "1h"
+      }
+    },
+    "updateDemande": {
+      "url": "http://localhost:8080/api/demandes/1",
+      "method": "PUT",
+      "body": {
+        "controleur": "Updated Controleur",
+        "of_demande": "OF456",
+        "sn": "SN456",
+        "programme": "Updated Programme",
+        "date": "2023-05-16",
+        "time": "11:30",
+        "status": "Completed",
+        "etq": "ETQ456",
+        "defaut": "None",
+        "startcontrole": "11:30",
+        "finishcontrole": "12:30",
+        "dureeDeLaTache": "1h"
+      }
+    },
+    "deleteDemande": {
+      "url": "http://localhost:8080/api/demandes/1",
+      "method": "DELETE"
+    },
+    "exportDemandesToExcel": {
+      "url": "http://localhost:8080/api/demandes/excel",
+      "method": "GET"
+    },
+    "createBatchDemandes": {
+      "url": "http://localhost:8080/api/demandes/batch",
+      "method": "POST",
+      "body": [
+        {
+          "controleur": "Batch Controleur 1",
+          "of_demande": "OF789",
+          "sn": "SN789",
+          "programme": "Batch Programme 1",
+          "date": "2023-05-17",
+          "time": "12:30",
+          "status": "Pending",
+          "etq": "ETQ789",
+          "defaut": "None",
+          "startcontrole": "12:30",
+          "finishcontrole": "13:30",
+          "dureeDeLaTache": "1h"
+        },
+        {
+          "controleur": "Batch Controleur 2",
+          "of_demande": "OF101",
+          "sn": "SN101",
+          "programme": "Batch Programme 2",
+          "date": "2023-05-18",
+          "time": "13:30",
+          "status": "Pending",
+          "etq": "ETQ101",
+          "defaut": "None",
+          "startcontrole": "13:30",
+          "finishcontrole": "14:30",
+          "dureeDeLaTache": "1h"
+        }
+      ]
+    }
+  },
+  "demandes_delegue": {
+    "getAllDemandesDelegue": {
+      "url": "http://localhost:8080/api/demandes_delegue",
+      "method": "GET"
+    },
+    "getDemandeDelegueById": {
+      "url": "http://localhost:8080/api/demandes_delegue/1",
+      "method": "GET"
+    },
+    "createDemandeDelegue": {
+      "url": "http://localhost:8080/api/demandes_delegue",
+      "method": "POST",
+      "body": {
+        "controleur": "Test Controleur",
+        "of_demande": "OF123",
+        "sn": "SN123",
+        "programme": "Test Programme",
+        "date": "2023-05-15",
+        "time": "10:30",
+        "status": "Pending",
+        "etq": "ETQ123",
+        "defaut": "None",
+        "startcontrole": "10:30",
+        "finishcontrole": "11:30",
+        "dureeDeLaTache": "1h"
+      }
+    },
+    "updateDemandeDelegue": {
+      "url": "http://localhost:8080/api/demandes_delegue/1",
+      "method": "PUT",
+      "body": {
+        "controleur": "Updated Controleur",
+        "of_demande": "OF456",
+        "sn": "SN456",
+        "programme": "Updated Programme",
+        "date": "2023-05-16",
+        "time": "11:30",
+        "status": "Completed",
+        "etq": "ETQ456",
+        "defaut": "None",
+        "startcontrole": "11:30",
+        "finishcontrole": "12:30",
+        "dureeDeLaTache": "1h"
+      }
+    },
+    "deleteDemandeDelegue": {
+      "url": "http://localhost:8080/api/demandes_delegue/1",
+      "method": "DELETE"
+    },
+    "exportDemandesDelegueToExcel": {
+      "url": "http://localhost:8080/api/demandes_delegue/excel",
+      "method": "GET"
+    },
+    "createBatchDemandesDelegue": {
+      "url": "http://localhost:8080/api/demandes_delegue/batch",
+      "method": "POST",
+      "body": [
+        {
+          "controleur": "Batch Controleur 1",
+          "of_demande": "OF789",
+          "sn": "SN789",
+          "programme": "Batch Programme 1",
+          "date": "2023-05-17",
+          "time": "12:30",
+          "status": "Pending",
+          "etq": "ETQ789",
+          "defaut": "None",
+          "startcontrole": "12:30",
+          "finishcontrole": "13:30",
+          "dureeDeLaTache": "1h"
+        },
+        {
+          "controleur": "Batch Controleur 2",
+          "of_demande": "OF101",
+          "sn": "SN101",
+          "programme": "Batch Programme 2",
+          "date": "2023-05-18",
+          "time": "13:30",
+          "status": "Pending",
+          "etq": "ETQ101",
+          "defaut": "None",
+          "startcontrole": "13:30",
+          "finishcontrole": "14:30",
+          "dureeDeLaTache": "1h"
+        }
+      ]
+    }
+  },
+  "demandes_finale": {
+    "getAllDemandesFinale": {
+      "url": "http://localhost:8080/api/demandes_finale",
+      "method": "GET"
+    },
+    "getDemandeFinaleById": {
+      "url": "http://localhost:8080/api/demandes_finale/1",
+      "method": "GET"
+    },
+    "createDemandeFinale": {
+      "url": "http://localhost:8080/api/demandes_finale",
+      "method": "POST",
+      "body": {
+        "controleur": "Test Controleur",
+        "of_demande": "OF123",
+        "sn": "SN123",
+        "programme": "Test Programme",
+        "date": "2023-05-15",
+        "time": "10:30",
+        "status": "Pending",
+        "etq": "ETQ123",
+        "defaut": "None",
+        "startcontrole": "10:30",
+        "finishcontrole": "11:30",
+        "dureeDeLaTache": "1h"
+      }
+    },
+    "updateDemandeFinale": {
+      "url": "http://localhost:8080/api/demandes_finale/1",
+      "method": "PUT",
+      "body": {
+        "controleur": "Updated Controleur",
+        "of_demande": "OF456",
+        "sn": "SN456",
+        "programme": "Updated Programme",
+        "date": "2023-05-16",
+        "time": "11:30",
+        "status": "Completed",
+        "etq": "ETQ456",
+        "defaut": "None",
+        "startcontrole": "11:30",
+        "finishcontrole": "12:30",
+        "dureeDeLaTache": "1h"
+      }
+    },
+    "deleteDemandeFinale": {
+      "url": "http://localhost:8080/api/demandes_finale/1",
+      "method": "DELETE"
+    },
+    "exportDemandesFinaleToExcel": {
+      "url": "http://localhost:8080/api/demandes_finale/excel",
+      "method": "GET"
+    },
+    "createBatchDemandesFinale": {
+      "url": "http://localhost:8080/api/demandes_finale/batch",
+      "method": "POST",
+      "body": [
+        {
+          "controleur": "Batch Controleur 1",
+          "of_demande": "OF789",
+          "sn": "SN789",
+          "programme": "Batch Programme 1",
+          "date": "2023-05-17",
+          "time": "12:30",
+          "status": "Pending",
+          "etq": "ETQ789",
+          "defaut": "None",
+          "startcontrole": "12:30",
+          "finishcontrole": "13:30",
+          "dureeDeLaTache": "1h"
+        },
+        {
+          "controleur": "Batch Controleur 2",
+          "of_demande": "OF101",
+          "sn": "SN101",
+          "programme": "Batch Programme 2",
+          "date": "2023-05-18",
+          "time": "13:30",
+          "status": "Pending",
+          "etq": "ETQ101",
+          "defaut": "None",
+          "startcontrole": "13:30",
+          "finishcontrole": "14:30",
+          "dureeDeLaTache": "1h"
+        }
+      ]
+    }
+  },
+  "demandes_te": {
+    "getAllDemandesTe": {
+      "url": "http://localhost:8080/api/demandes_te",
+      "method": "GET"
+    },
+    "getDemandeTeById": {
+      "url": "http://localhost:8080/api/demandes_te/1",
+      "method": "GET"
+    },
+    "createDemandeTe": {
+      "url": "http://localhost:8080/api/demandes_te",
+      "method": "POST",
+      "body": {
+        "controleur": "Test Controleur",
+        "of_demande": "OF123",
+        "sn": "SN123",
+        "programme": "Test Programme",
+        "date": "2023-05-15",
+        "time": "10:30",
+        "status": "Pending",
+        "etq": "ETQ123",
+        "defaut": "None",
+        "startcontrole": "10:30",
+        "finishcontrole": "11:30",
+        "dureeDeLaTache": "1h"
+      }
+    },
+    "updateDemandeTe": {
+      "url": "http://localhost:8080/api/demandes_te/1",
+      "method": "PUT",
+      "body": {
+        "controleur": "Updated Controleur",
+        "of_demande": "OF456",
+        "sn": "SN456",
+        "programme": "Updated Programme",
+        "date": "2023-05-16",
+        "time": "11:30",
+        "status": "Completed",
+        "etq": "ETQ456",
+        "defaut": "None",
+        "startcontrole": "11:30",
+        "finishcontrole": "12:30",
+        "dureeDeLaTache": "1h"
+      }
+    },
+    "deleteDemandeTe": {
+      "url": "http://localhost:8080/api/demandes_te/1",
+      "method": "DELETE"
+    },
+    "exportDemandesToExcelTe": {
+      "url": "http://localhost:8080/api/demandes_te/excel",
+      "method": "GET"
+    },
+    "createBatchDemandesTe": {
+      "url": "http://localhost:8080/api/demandes_te/batch",
+      "method": "POST",
+      "body": [
+        {
+          "controleur": "Batch Controleur 1",
+          "of_demande": "OF789",
+          "sn": "SN789",
+          "programme": "Batch Programme 1",
+          "date": "2023-05-17",
+          "time": "12:30",
+          "status": "Pending",
+          "etq": "ETQ789",
+          "defaut": "None",
+          "startcontrole": "12:30",
+          "finishcontrole": "13:30",
+          "dureeDeLaTache": "1h"
+        },
+        {
+          "controleur": "Batch Controleur 2",
+          "of_demande": "OF101",
+          "sn": "SN101",
+          "programme": "Batch Programme 2",
+          "date": "2023-05-18",
+          "time": "13:30",
+          "status": "Pending",
+          "etq": "ETQ101",
+          "defaut": "None",
+          "startcontrole": "13:30",
+          "finishcontrole": "14:30",
+          "dureeDeLaTache": "1h"
+        }
+      ]
+    }
+  },
+  "ilots": {
+    "getAllIlots": {
+      "url": "http://localhost:8080/api/ilots",
+      "method": "GET"
+    },
+    "createIlot": {
+      "url": "http://localhost:8080/api/ilots",
+      "method": "POST",
+      "body": {
+        "name": "Test Ilot"
+      }
+    },
+    "updateIlot": {
+      "url": "http://localhost:8080/api/ilots/1",
+      "method": "PUT",
+      "body": {
+        "name": "Updated Ilot"
+      }
+    },
+    "deleteIlot": {
+      "url": "http://localhost:8080/api/ilots/1",
+      "method": "DELETE"
+    }
+  },
+  "metiers": {
+    "getAllMetiers": {
+      "url": "http://localhost:8080/api/metiers",
+      "method": "GET"
+    },
+    "createMetier": {
+      "url": "http://localhost:8080/api/metiers",
+      "method": "POST",
+      "body": {
+        "name": "Test Metier"
+      }
+    },
+    "updateMetier": {
+      "url": "http://localhost:8080/api/metiers/1",
+      "method": "PUT",
+      "body": {
+        "name": "Updated Metier"
+      }
+    },
+    "deleteMetier": {
+      "url": "http://localhost:8080/api/metiers/1",
+      "method": "DELETE"
+    }
+  },
+  "programmes": {
+    "getAllProgrammes": {
+      "url": "http://localhost:8080/api/programmes",
+      "method": "GET"
+    },
+    "createProgramme": {
+      "url": "http://localhost:8080/api/programmes",
+      "method": "POST",
+      "body": {
+        "name": "Test Programme"
+      }
+    },
+    "updateProgramme": {
+      "url": "http://localhost:8080/api/programmes/1",
+      "method": "PUT",
+      "body": {
+        "name": "Updated Programme"
+      }
+    },
+    "deleteProgramme": {
+      "url": "http://localhost:8080/api/programmes/1",
+      "method": "DELETE"
+    }
+  },
+  "machines": {
+    "getAllMachines": {
+      "url": "http://localhost:8080/api/machines",
+      "method": "GET"
+    },
+    "createMachine": {
+      "url": "http://localhost:8080/api/machines",
+      "method": "POST",
+      "body": {
+        "name": "Test Machine"
+      }
+    },
+    "updateMachine": {
+      "url": "http://localhost:8080/api/machines/1",
+      "method": "PUT",
+      "body": {
+        "name": "Updated Machine"
+      }
+    },
+    "deleteMachine": {
+      "url": "http://localhost:8080/api/machines/1",
+      "method": "DELETE"
+    }
+  }
+}
