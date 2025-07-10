@@ -26,21 +26,43 @@ class User_Role {
 class Ilot {
   -Long id
   -String name
+  -String description
+  -String location
+  -List<Machine> machines
+  -LocalDateTime createdAt
+  -LocalDateTime updatedAt
 }
 
 class Machine {
   -Long id
   -String name
+  -String type
+  -String model
+  -String serialNumber
+  -Ilot ilot
+  -List<Programme> programmes
+  -LocalDateTime createdAt
+  -LocalDateTime updatedAt
 }
 
 class Metier {
   -Long id
   -String name
+  -String description
+  -String category
+  -List<String> requiredSkills
+  -LocalDateTime createdAt
+  -LocalDateTime updatedAt
 }
 
 class Programme {
   -Long id
   -String name
+  -String description
+  -Integer duration
+  -Machine machine
+  -LocalDateTime createdAt
+  -LocalDateTime updatedAt
 }
 
 ' Demand Classes
@@ -122,19 +144,22 @@ class DemandeTe {
 
 ' Relationships
 App_user "1" -- "many" User_Role : has >
+Ilot "1" -- "many" Machine : contains >
+Machine "1" -- "many" Programme : has >
+
 Demande "many" -- "1" App_user : operateur >
 Demande "many" -- "1" App_user : controleur >
 Demande "many" -- "1" Ilot : belongs to >
-Demande "many" -- "1" Metier : has >
+Demande "many" -- "1" Metier : requires >
 Demande "many" -- "1" Programme : uses >
 
 DemandeDelegue "many" -- "1" App_user : controleur >
 DemandeDelegue "many" -- "1" Ilot : belongs to >
-DemandeDelegue "many" -- "1" Metier : has >
+DemandeDelegue "many" -- "1" Metier : requires >
 DemandeDelegue "many" -- "1" Programme : uses >
 
 DemandeFinale "many" -- "1" Ilot : belongs to >
-DemandeFinale "many" -- "1" Metier : has >
+DemandeFinale "many" -- "1" Metier : requires >
 
 ' Note: The actual implementation doesn't use inheritance, but it would be a good design improvement
 note "Note: BaseDemande is a suggested abstract class that could be used to reduce code duplication" as N1

@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.Collections;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -79,6 +80,16 @@ public class App_userController {
                         .filter(Objects::nonNull)
                         .collect(Collectors.toList());
                 user.setUser_roles(roles);
+            } else {
+                // Assign default ROLE_USER if no roles are provided
+                User_Role defaultRole = roleService.getRoleByName("ROLE_USER");
+                if (defaultRole == null) {
+                    // Create the default role if it doesn't exist
+                    defaultRole = new User_Role();
+                    defaultRole.setRoleName("ROLE_USER");
+                    defaultRole = roleService.saveRole(defaultRole);
+                }
+                user.setUser_roles(Collections.singletonList(defaultRole));
             }
 
             App_user savedUser = userService.saveUser(user);

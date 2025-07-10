@@ -30,6 +30,10 @@ public class MetierService {
         return metierRepository.findAll();
     }
 
+    public Metier getMetierById(Long id) {
+        return metierRepository.findById(id).orElse(null);
+    }
+
     public Metier saveMetier(Metier metier) {
         return metierRepository.save(metier);
     }
@@ -41,6 +45,9 @@ public class MetierService {
 
         // Update fields
         existingMetier.setName(metier.getName());
+        existingMetier.setDescription(metier.getDescription());
+        existingMetier.setCategory(metier.getCategory());
+        existingMetier.setRequiredSkills(metier.getRequiredSkills());
 
         // Save the updated Metier back to the database
         return metierRepository.save(existingMetier);

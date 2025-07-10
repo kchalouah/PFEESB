@@ -29,39 +29,50 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/machines")
 public class MachineController {
 
-    private final MachineService MachineService;
+    private final MachineService machineService;
 
-    public MachineController(MachineService MachineService) {
-        this.MachineService = MachineService;
+    public MachineController(MachineService machineService) {
+        this.machineService = machineService;
     }
 
     @GetMapping
     public List<Machine> getMachines() {
-        return MachineService.getAllMachines();
+        return machineService.getAllMachines();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Machine> getMachineById(@PathVariable Long id) {
+        Machine machine = machineService.getMachineById(id);
+        if (machine != null) {
+            return ResponseEntity.ok(machine);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @PostMapping
-    public ResponseEntity<Machine> createMachine(@RequestBody Machine Machine) {
-        Machine savedMachine = MachineService.saveMachine(Machine);
+    public ResponseEntity<Machine> createMachine(@RequestBody Machine machine) {
+        Machine savedMachine = machineService.saveMachine(machine);
         return ResponseEntity.ok(savedMachine);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Machine> updateMachine(@PathVariable Long id, @RequestBody Machine Machine) {
-        Machine updatedMachine = MachineService.updateMachine(id, Machine);
+    public ResponseEntity<Machine> updateMachine(@PathVariable Long id, @RequestBody Machine machine) {
+        Machine updatedMachine = machineService.updateMachine(id, machine);
         if (updatedMachine != null) {
             return ResponseEntity.ok(updatedMachine);
         } else {
             return ResponseEntity.notFound().build();
         }
     }
-        @DeleteMapping("/{id}")
+
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteMachine(@PathVariable Long id) {
-        if (MachineService.deleteMachine(id)) {
+        if (machineService.deleteMachine(id)) {
             return ResponseEntity.noContent().build(); // HTTP 204 No Content
         } else {
             return ResponseEntity.notFound().build(); // HTTP 404 Not Found
         }
     }
-    
+
 }

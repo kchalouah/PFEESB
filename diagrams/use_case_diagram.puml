@@ -1,61 +1,72 @@
 @startuml
-' Use Case Diagram for PfeAziz Application
+' Diagramme de Cas d'Utilisation pour l'Application PfeAziz
 
-' Actors
-actor "User" as user
-actor "Administrator" as admin
-actor "Controleur" as controleur
-actor "Operateur" as operateur
-actor "Delegue" as delegue
+' Acteurs
+actor "Utilisateur" as user
+actor "Administrateur" as admin
+actor "Contrôleur" as controleur
+actor "Opérateur" as operateur
+actor "Délégué" as delegue
+actor "Système" as system
 
-' Use Cases
-package "Authentication" {
-  usecase "Login" as login
-  usecase "Logout" as logout
-  usecase "Manage Users" as manageUsers
-  usecase "Manage Roles" as manageRoles
+' Cas d'Utilisation
+package "Authentification" {
+  usecase "Se connecter" as login
+  usecase "Se déconnecter" as logout
+  usecase "Gérer les utilisateurs" as manageUsers
+  usecase "Gérer les rôles" as manageRoles
 }
 
-package "Reference Data Management" {
-  usecase "Manage Ilots" as manageIlots
-  usecase "Manage Machines" as manageMachines
-  usecase "Manage Metiers" as manageMetiers
-  usecase "Manage Programmes" as manageProgrammes
+package "Gestion des Données de Référence" {
+  usecase "Gérer les îlots" as manageIlots
+  usecase "Gérer les machines" as manageMachines
+  usecase "Gérer les métiers" as manageMetiers
+  usecase "Gérer les programmes" as manageProgrammes
 }
 
-package "Demand Management" {
-  usecase "Create Demand" as createDemand
-  usecase "View Demands" as viewDemands
-  usecase "Update Demand" as updateDemand
-  usecase "Delete Demand" as deleteDemand
-  usecase "Export Demands to Excel" as exportDemands
-  usecase "Start Control" as startControl
-  usecase "Finish Control" as finishControl
-  usecase "Record Result" as recordResult
+package "Initialisation des Données" {
+  usecase "Initialiser les rôles" as initRoles
+  usecase "Initialiser les utilisateurs" as initUsers
+  usecase "Initialiser les îlots" as initIlots
+  usecase "Initialiser les machines" as initMachines
+  usecase "Initialiser les métiers" as initMetiers
+  usecase "Initialiser les programmes" as initProgrammes
+  usecase "Initialiser les demandes" as initDemandes
 }
 
-package "Delegue Demand Management" {
-  usecase "Create Delegue Demand" as createDemandeDelegue
-  usecase "View Delegue Demands" as viewDemandesDelegue
-  usecase "Update Delegue Demand" as updateDemandeDelegue
-  usecase "Delete Delegue Demand" as deleteDemandeDelegue
-  usecase "Export Delegue Demands to Excel" as exportDemandesDelegue
+package "Gestion des Demandes Standard" {
+  usecase "Créer une demande" as createDemand
+  usecase "Consulter les demandes" as viewDemands
+  usecase "Mettre à jour une demande" as updateDemand
+  usecase "Supprimer une demande" as deleteDemand
+  usecase "Exporter les demandes vers Excel" as exportDemands
+  usecase "Démarrer le contrôle" as startControl
+  usecase "Terminer le contrôle" as finishControl
+  usecase "Enregistrer le résultat" as recordResult
 }
 
-package "Finale Demand Management" {
-  usecase "Create Finale Demand" as createDemandeFinale
-  usecase "View Finale Demands" as viewDemandesFinale
-  usecase "Update Finale Demand" as updateDemandeFinale
-  usecase "Delete Finale Demand" as deleteDemandeFinale
-  usecase "Export Finale Demands to Excel" as exportDemandesFinale
+package "Gestion des Demandes Déléguées" {
+  usecase "Créer une demande déléguée" as createDemandeDelegue
+  usecase "Consulter les demandes déléguées" as viewDemandesDelegue
+  usecase "Mettre à jour une demande déléguée" as updateDemandeDelegue
+  usecase "Supprimer une demande déléguée" as deleteDemandeDelegue
+  usecase "Exporter les demandes déléguées vers Excel" as exportDemandesDelegue
 }
 
-package "TE Demand Management" {
-  usecase "Create TE Demand" as createDemandeTe
-  usecase "View TE Demands" as viewDemandesTe
-  usecase "Update TE Demand" as updateDemandeTe
-  usecase "Delete TE Demand" as deleteDemandeTe
-  usecase "Export TE Demands to Excel" as exportDemandesTe
+package "Gestion des Demandes Finales" {
+  usecase "Créer une demande finale" as createDemandeFinale
+  usecase "Consulter les demandes finales" as viewDemandesFinale
+  usecase "Mettre à jour une demande finale" as updateDemandeFinale
+  usecase "Supprimer une demande finale" as deleteDemandeFinale
+  usecase "Exporter les demandes finales vers Excel" as exportDemandesFinale
+}
+
+package "Gestion des Demandes Techniques" {
+  usecase "Créer une demande technique" as createDemandeTe
+  usecase "Consulter les demandes techniques" as viewDemandesTe
+  usecase "Mettre à jour une demande technique" as updateDemandeTe
+  usecase "Supprimer une demande technique" as deleteDemandeTe
+  usecase "Exporter les demandes techniques vers Excel" as exportDemandesTe
 }
 
 ' Relationships
@@ -86,10 +97,23 @@ delegue --> createDemandeDelegue
 delegue --> viewDemandesDelegue
 delegue --> updateDemandeDelegue
 
+' System initialization
+system --> initRoles
+system --> initUsers
+system --> initIlots
+system --> initMachines
+system --> initMetiers
+system --> initProgrammes
+system --> initDemandes
+
 ' Inheritance
 admin --|> user
 controleur --|> user
 operateur --|> user
 delegue --|> user
+
+' Notes
+note "L'initialisation des données est effectuée automatiquement au démarrage du système" as N1
+N1 .. system
 
 @enduml

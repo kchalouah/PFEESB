@@ -40,6 +40,16 @@ public class MetierController {
         return metierService.getAllMetiers();
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Metier> getMetierById(@PathVariable Long id) {
+        Metier metier = metierService.getMetierById(id);
+        if (metier != null) {
+            return ResponseEntity.ok(metier);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
     @PostMapping
     public Metier addMetier(@RequestBody Metier metier) {
         return metierService.saveMetier(metier);

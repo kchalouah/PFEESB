@@ -9,35 +9,39 @@ import java.util.List;
 
 @Service
 public class MachineService {
-    private final MachineRepository MachineRepository;
+    private final MachineRepository machineRepository;
 
-    public MachineService(MachineRepository MachineRepository) {
-        this.MachineRepository = MachineRepository;
+    public MachineService(MachineRepository machineRepository) {
+        this.machineRepository = machineRepository;
     }
 
     public List<Machine> getAllMachines() {
-        return MachineRepository.findAll();
+        return machineRepository.findAll();
     }
 
-    public Machine saveMachine(Machine Machine) {
-        return MachineRepository.save(Machine);
+    public Machine getMachineById(Long id) {
+        return machineRepository.findById(id).orElse(null);
     }
 
-    public Machine updateMachine(Long id, Machine Machine) {
-        if (MachineRepository.existsById(id)) {
-            Machine.setId(id); // Set the ID for the update
-            return MachineRepository.save(Machine);
+    public Machine saveMachine(Machine machine) {
+        return machineRepository.save(machine);
+    }
+
+    public Machine updateMachine(Long id, Machine machine) {
+        if (machineRepository.existsById(id)) {
+            machine.setId(id); // Set the ID for the update
+            return machineRepository.save(machine);
         } else {
-            return null; // Handle case where the Machine does not exist
+            return null; // Handle case where the machine does not exist
         }
     }
 
     public boolean deleteMachine(Long id) {
-        if (MachineRepository.existsById(id)) {
-            MachineRepository.deleteById(id);
+        if (machineRepository.existsById(id)) {
+            machineRepository.deleteById(id);
             return true; // Indicate successful deletion
         } else {
-            return false; // Indicate that the Machine was not found
+            return false; // Indicate that the machine was not found
         }
     }
 }

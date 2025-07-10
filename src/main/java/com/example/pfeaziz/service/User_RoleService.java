@@ -23,6 +23,10 @@ public class User_RoleService {
         return roleRepository.findById(id).orElse(null);
     }
 
+    public User_Role getRoleByName(String roleName) {
+        return roleRepository.findByRoleName(roleName);
+    }
+
     public User_Role saveRole(User_Role role) {
         return roleRepository.save(role);
     }
