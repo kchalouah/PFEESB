@@ -74,22 +74,22 @@ public class App_userController {
                 return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
             }
 
-            if (user.getUser_roles() != null && !user.getUser_roles().isEmpty()) {
-                List<User_Role> roles = user.getUser_roles().stream()
+            // Always fetch roles from DB to avoid detached entities
+            if (user.getRoles() != null && !user.getRoles().isEmpty()) {
+                List<User_Role> attachedRoles = user.getRoles().stream()
                         .map(role -> roleService.getRoleById(role.getId()))
                         .filter(Objects::nonNull)
                         .collect(Collectors.toList());
-                user.setUser_roles(roles);
+                user.setRoles(attachedRoles);
             } else {
                 // Assign default ROLE_USER if no roles are provided
                 User_Role defaultRole = roleService.getRoleByName("ROLE_USER");
                 if (defaultRole == null) {
-                    // Create the default role if it doesn't exist
                     defaultRole = new User_Role();
                     defaultRole.setRoleName("ROLE_USER");
                     defaultRole = roleService.saveRole(defaultRole);
                 }
-                user.setUser_roles(Collections.singletonList(defaultRole));
+                user.setRoles(Collections.singletonList(defaultRole));
             }
 
             App_user savedUser = userService.saveUser(user);
@@ -121,8 +121,8 @@ public class App_userController {
         }
 
         String token = jwtTokenProvider.generateToken(user);
-        List<String> roles = user.getUser_roles().stream()
-                .map(User_Role::getAuthority)
+        List<String> roles = user.getRoles().stream()
+                .map(role -> role.getAuthority())
                 .collect(Collectors.toList());
 
         response.put("message", "Login successful!");

@@ -16,11 +16,14 @@ public class User_Role implements GrantedAuthority {
 
     private String roleName;
 
+    private String description; // Added to match frontend
+
     public User_Role() {}
 
-    public User_Role(Long id, String roleName) {
+    public User_Role(Long id, String roleName, String description) {
         this.id = id;
         this.roleName = roleName;
+        this.description = description;
     }
 
     public Long getId() {
@@ -37,6 +40,14 @@ public class User_Role implements GrantedAuthority {
 
     public void setRoleName(String roleName) {
         this.roleName = roleName;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     @Override

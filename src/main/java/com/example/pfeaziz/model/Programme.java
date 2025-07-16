@@ -2,13 +2,14 @@ package com.example.pfeaziz.model;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import jakarta.persistence.Column;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Column;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 
@@ -19,23 +20,27 @@ public class Programme implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
+    @Column(nullable = false)
+    private String name = "-";
 
-    @Column(length = 1000)
-    private String description;
+    @Column(length = 1000, nullable = false)
+    private String description = "-";
 
-    private Integer duration;
+    @Column(nullable = false)
+    private Integer duration = 0;
 
     @ManyToOne
-    @JoinColumn(name = "machine_id")
+    @JoinColumn(name = "machine_id", nullable = false)
     private Machine machine;
 
-    // Timestamps
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
     @PrePersist
     protected void onCreate() {
+        if (name == null) name = "-";
+        if (description == null) description = "-";
+        if (duration == null) duration = 0;
         createdAt = LocalDateTime.now();
         updatedAt = LocalDateTime.now();
     }
@@ -45,67 +50,26 @@ public class Programme implements Serializable {
         updatedAt = LocalDateTime.now();
     }
 
-    // Constructors, getters, and setters
+    // Getters et setters
 
-    public Programme() {}
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public Programme(String name) {
-        this.name = name;
-    }
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
 
-    public Long getId() {
-        return id;
-    }
+    public String getDescription() { return description; }
+    public void setDescription(String description) { this.description = description; }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public Integer getDuration() { return duration; }
+    public void setDuration(Integer duration) { this.duration = duration; }
 
-    public String getName() {
-        return name;
-    }
+    public Machine getMachine() { return machine; }
+    public void setMachine(Machine machine) { this.machine = machine; }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+    public LocalDateTime getCreatedAt() { return createdAt; }
+    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Integer getDuration() {
-        return duration;
-    }
-
-    public void setDuration(Integer duration) {
-        this.duration = duration;
-    }
-
-    public Machine getMachine() {
-        return machine;
-    }
-
-    public void setMachine(Machine machine) {
-        this.machine = machine;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
-    }
+    public LocalDateTime getUpdatedAt() { return updatedAt; }
+    public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
 }

@@ -1,27 +1,20 @@
 package com.example.pfeaziz.controller;
 
-
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 import com.example.pfeaziz.model.DemandeDelegue;
 import com.example.pfeaziz.service.DemandeDelegueService;
-import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.CreationHelper;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
@@ -31,117 +24,95 @@ public class DemandeDelegueController {
     @Autowired
     private DemandeDelegueService demandeDelegueService;
 
+    // 🟢 Get all
     @GetMapping
     public List<DemandeDelegue> getAllDemandesDelegue() {
         return demandeDelegueService.getAllDemandesDelegue();
     }
 
+    // 🟡 Get by ID
     @GetMapping("/{id}")
     public DemandeDelegue getDemandeDelegueById(@PathVariable Long id) {
         return demandeDelegueService.getDemandeDelegueById(id);
     }
 
+    // 🟢 Create
     @PostMapping
     public DemandeDelegue createDemandeDelegue(@RequestBody DemandeDelegue demandeDelegue) {
         return demandeDelegueService.createDemandeDelegue(demandeDelegue);
     }
 
+    // 🟠 Update
     @PutMapping("/{id}")
     public DemandeDelegue updateDemandeDelegue(@PathVariable Long id, @RequestBody DemandeDelegue demandeDelegue) {
         return demandeDelegueService.updateDemandeDelegue(id, demandeDelegue);
     }
 
+    // 🔴 Delete
     @DeleteMapping("/{id}")
     public void deleteDemandeDelegue(@PathVariable Long id) {
         demandeDelegueService.deleteDemandeDelegue(id);
     }
 
-    // Excel export endpoint
-    @GetMapping("/excel")
-    public ResponseEntity<InputStreamResource> exportDemandesDelegueToExcel() throws IOException, ParseException {
-        List<DemandeDelegue> demandesDelegue = demandeDelegueService.getAllDemandesDelegue();
-        if (demandesDelegue == null) {
-            demandesDelegue = new ArrayList<>();
-        }
+    // 📥 Batch insert
+    @PostMapping("/batch")
+    public List<DemandeDelegue> createBatchDemandesDelegue(@RequestBody List<DemandeDelegue> demandesDelegue) {
+        return demandeDelegueService.createBatchDemandesDelegue(demandesDelegue);
+    }
 
-        SimpleDateFormat inputDateFormat = new SimpleDateFormat("yyyy-MM-dd"); // Input date format
-        SimpleDateFormat outputDateFormat = new SimpleDateFormat("dd/MM/yyyy"); // Excel date format
+    // 📤 Excel Export
+    @GetMapping("/excel")
+    public ResponseEntity<InputStreamResource> exportDemandesDelegueToExcel() throws IOException {
+        List<DemandeDelegue> demandes = demandeDelegueService.getAllDemandesDelegue();
+        if (demandes == null) demandes = new ArrayList<>();
 
         try (XSSFWorkbook workbook = new XSSFWorkbook()) {
-            Sheet sheet = workbook.createSheet("DemandesDelegue");
+            Sheet sheet = workbook.createSheet("Demandes Delegue");
 
-            // Date format for Excel cells
-            CreationHelper creationHelper = workbook.getCreationHelper();
-            CellStyle dateCellStyle = workbook.createCellStyle();
-            dateCellStyle.setDataFormat(creationHelper.createDataFormat().getFormat("dd/MM/yyyy"));
-
-            // Create header row
-            Row header = sheet.createRow(0);
-            String[] headers = { 
-                "Controleur", "OF", "Sn", "Ilot", "Metier", "Article", "Date", "Time", 
-                "Status", "Etq","Quantite Controle Metier", "Quantite Non Conforme", "Defaut", 
-                "Start Controle", "Finish Controle", "Duree De La Tache"
+            String[] headers = {
+                    "ID", "OF", "Date Demande", "Status", "Délégué À", "Date Délégation",
+                    "Ilot", "Machine", "Opérateur", "Contrôleur",
+                    "Finished", "Started", "Nb Produits Contrôlés", "ETQ"
             };
+
+            Row headerRow = sheet.createRow(0);
             for (int i = 0; i < headers.length; i++) {
-                header.createCell(i).setCellValue(headers[i]);
+                headerRow.createCell(i).setCellValue(headers[i]);
             }
 
-            // Create data rows
             int rowNum = 1;
-            for (DemandeDelegue demandeDelegue : demandesDelegue) {
+            for (DemandeDelegue d : demandes) {
                 Row row = sheet.createRow(rowNum++);
-                row.createCell(0).setCellValue(demandeDelegue.getControleur() != null ? demandeDelegue.getControleur().getUsername() : "N/A");
-                row.createCell(1).setCellValue(demandeDelegue.getOf_demande() != null ? demandeDelegue.getOf_demande() : "N/A");
-                row.createCell(2).setCellValue(demandeDelegue.getSn() != null ? demandeDelegue.getSn() : "N/A");
-                row.createCell(3).setCellValue(demandeDelegue.getIlot() != null ? demandeDelegue.getIlot().getName() : "N/A");
-                row.createCell(4).setCellValue(demandeDelegue.getMetier() != null ? demandeDelegue.getMetier().getName() : "N/A");
-                row.createCell(5).setCellValue(demandeDelegue.getProgramme() != null ? demandeDelegue.getProgramme().getName() : "N/A");
-
-                // Handle date format for Excel
-                String formattedDate = "N/A";
-                if (demandeDelegue.getDate() != null) {
-                    try {
-                        Date date = inputDateFormat.parse(demandeDelegue.getDate()); // Parse input format
-                        row.createCell(6).setCellValue(date);
-                        row.getCell(6).setCellStyle(dateCellStyle); // Apply date style
-                    } catch (ParseException e) {
-                        // Handle exception or keep formattedDate as "N/A"
-                        row.createCell(6).setCellValue(formattedDate);
-                    }
-                } else {
-                    row.createCell(6).setCellValue(formattedDate);
-                }
-
-                row.createCell(7).setCellValue(demandeDelegue.getTime() != null ? demandeDelegue.getTime() : "N/A");
-                row.createCell(8).setCellValue(demandeDelegue.getStatus() != null ? demandeDelegue.getStatus() : "N/A");
-                row.createCell(9).setCellValue(demandeDelegue.getEtq() != null ? demandeDelegue.getEtq() : "N/A");
-                row.createCell(10).setCellValue(demandeDelegue.getQuantite_non_conforme() != null ? demandeDelegue.getQuantite_non_conforme() : "N/A");
-                row.createCell(11).setCellValue(demandeDelegue.getQuantite_controle_metier() != null ? demandeDelegue.getQuantite_controle_metier() : "N/A");
-                row.createCell(12).setCellValue(demandeDelegue.getDefaut() != null ? demandeDelegue.getDefaut() : "N/A");
-                row.createCell(13).setCellValue(demandeDelegue.getStartcontrole() != null ? demandeDelegue.getStartcontrole() : "N/A");
-                row.createCell(14).setCellValue(demandeDelegue.getFinishcontrole() != null ? demandeDelegue.getFinishcontrole() : "N/A");
-                row.createCell(15).setCellValue(demandeDelegue.getDureeDeLaTache() != null ? demandeDelegue.getDureeDeLaTache() : "N/A");
+                row.createCell(0).setCellValue(d.getId() != null ? d.getId() : 0);
+                row.createCell(1).setCellValue(nullToNA(d.getOf_demande()));
+                row.createCell(2).setCellValue(nullToNA(d.getDate_demande()));
+                row.createCell(3).setCellValue(nullToNA(d.getStatus()));
+                row.createCell(4).setCellValue(d.getDelegatedTo() != null ? d.getDelegatedTo().getUsername() : "N/A");
+                row.createCell(5).setCellValue(nullToNA(d.getDelegationDate()));
+                row.createCell(6).setCellValue(d.getIlot() != null ? d.getIlot().getName() : "N/A");
+                row.createCell(7).setCellValue(d.getMachine() != null ? d.getMachine().getName() : "N/A");
+                row.createCell(8).setCellValue(d.getOperateur() != null ? d.getOperateur().getUsername() : "N/A");
+                row.createCell(9).setCellValue(d.getControleur() != null ? d.getControleur().getUsername() : "N/A");
+                row.createCell(10).setCellValue(d.getFinished() != null && d.getFinished());
+                row.createCell(11).setCellValue(d.getStarted() != null && d.getStarted());
+                row.createCell(12).setCellValue(d.getNombre_produit_controle() != null ? d.getNombre_produit_controle() : 0);
+                row.createCell(13).setCellValue(nullToNA(d.getEtq()));
             }
 
-            // Write to ByteArrayOutputStream
             ByteArrayOutputStream out = new ByteArrayOutputStream();
             workbook.write(out);
 
-            // Set response headers
-                        HttpHeaders headersResponse = new HttpHeaders();
+            HttpHeaders headersResponse = new HttpHeaders();
             headersResponse.add("Content-Disposition", "attachment; filename=demandesDelegue.xlsx");
             headersResponse.add("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
 
-            // Return the response
-            return ResponseEntity
-                    .ok()
+            return ResponseEntity.ok()
                     .headers(headersResponse)
                     .body(new InputStreamResource(new ByteArrayInputStream(out.toByteArray())));
         }
     }
 
-    @PostMapping("/batch")
-    public List<DemandeDelegue> createBatchDemandesDelegue(@RequestBody List<DemandeDelegue> demandesDelegue) {
-        return demandeDelegueService.createBatchDemandesDelegue(demandesDelegue);
+    private String nullToNA(String value) {
+        return (value != null && !value.isBlank()) ? value : "N/A";
     }
 }

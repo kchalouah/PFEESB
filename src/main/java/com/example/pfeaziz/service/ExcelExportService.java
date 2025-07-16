@@ -1,6 +1,5 @@
 package com.example.pfeaziz.service;
 
-
 import com.example.pfeaziz.model.Demande;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -23,16 +22,16 @@ public class ExcelExportService {
             headerRow.createCell(0).setCellValue("ID");
             headerRow.createCell(1).setCellValue("Operateur");
             headerRow.createCell(2).setCellValue("Ilot");
-            headerRow.createCell(3).setCellValue("Metier");
-            headerRow.createCell(4).setCellValue("Date Demande");
-            headerRow.createCell(5).setCellValue("Time Demande");
-            headerRow.createCell(6).setCellValue("Controleur");
-            headerRow.createCell(7).setCellValue("Status");
-            headerRow.createCell(8).setCellValue("Defaut");
-            headerRow.createCell(9).setCellValue("Start Controle");
-            headerRow.createCell(10).setCellValue("Finish Controle");
-            headerRow.createCell(11).setCellValue("Duree De La Tache");
-            headerRow.createCell(15).setCellValue("Programme");
+            headerRow.createCell(3).setCellValue("Machine");
+            headerRow.createCell(4).setCellValue("OF");
+            headerRow.createCell(5).setCellValue("Date Demande");
+            headerRow.createCell(6).setCellValue("Status");
+            headerRow.createCell(7).setCellValue("Duree (min)");
+            headerRow.createCell(8).setCellValue("Etq");
+            headerRow.createCell(9).setCellValue("Started");
+            headerRow.createCell(10).setCellValue("Finished");
+            headerRow.createCell(11).setCellValue("Nombre Produit Controle");
+            headerRow.createCell(12).setCellValue("Controleur");
             // Fill data rows
             int rowNum = 1;
             for (Demande demande : demandes) {
@@ -40,25 +39,25 @@ public class ExcelExportService {
                 row.createCell(0).setCellValue(demande.getId());
                 row.createCell(1).setCellValue(demande.getOperateur() != null ? demande.getOperateur().getUsername() : "N/A");
                 row.createCell(2).setCellValue(demande.getIlot() != null ? demande.getIlot().getName() : "N/A");
-                row.createCell(3).setCellValue(demande.getMetier() != null ? demande.getMetier().getName() : "N/A");
-                row.createCell(4).setCellValue(demande.getDate());
-                row.createCell(5).setCellValue(demande.getTime());
-                row.createCell(6).setCellValue(demande.getControleur() != null ? demande.getControleur().getUsername() : "N/A");
-                row.createCell(7).setCellValue(demande.getStatus());
-                row.createCell(8).setCellValue(demande.getDefaut());
-                row.createCell(9).setCellValue(demande.getStartcontrole());
-                row.createCell(10).setCellValue(demande.getFinishcontrole());
-                row.createCell(11).setCellValue(demande.getDureeDeLaTache());
-
-                row.createCell(15).setCellValue(demande.getProgramme() != null ? demande.getProgramme().getName() : "N/A");
-            }   // Adjust column width
-            for (int i = 0; i < 17; i++) {
+                row.createCell(3).setCellValue(demande.getMachine() != null ? demande.getMachine().getName() : "N/A");
+                row.createCell(4).setCellValue(demande.getOf_demande() != null ? demande.getOf_demande() : "N/A");
+                row.createCell(5).setCellValue(demande.getDate_demande() != null ? demande.getDate_demande() : "N/A");
+                row.createCell(6).setCellValue(demande.getStatus() != null ? demande.getStatus() : "N/A");
+                row.createCell(7).setCellValue(demande.getDuree_en_minutes() != null ? demande.getDuree_en_minutes() : 0);
+                row.createCell(8).setCellValue(demande.getEtq() != null ? demande.getEtq() : "N/A");
+                row.createCell(9).setCellValue(demande.getStarted() != null ? demande.getStarted() : false);
+                row.createCell(10).setCellValue(demande.getFinished() != null ? demande.getFinished() : false);
+                row.createCell(11).setCellValue(demande.getNombre_produit_controle() != null ? demande.getNombre_produit_controle() : 0);
+                row.createCell(12).setCellValue(demande.getControleur() != null ? demande.getControleur().getUsername() : "N/A");
+            }
+            // Adjust column width
+            for (int i = 0; i <= 12; i++) {
                 sheet.autoSizeColumn(i);
-            }   // Write the output to the response's output stream
+            }
+            // Write the output to the response's output stream
             outputStream = response.getOutputStream();
             workbook.write(outputStream);
         }
-
         outputStream.close();
     }
 }

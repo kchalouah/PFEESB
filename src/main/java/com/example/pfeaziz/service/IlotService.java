@@ -17,6 +17,10 @@ public class IlotService {
     }
 
     public List<Ilot> getAllIlots() {
+        if (ilotRepository == null) {
+            System.err.println("IlotRepository is not injected!");
+            return List.of();
+        }
         return ilotRepository.findAll();
     }
 

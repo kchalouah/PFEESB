@@ -49,7 +49,6 @@ public class SecurityConfig {
                         .requestMatchers("/api/machines/**").permitAll()
                         .requestMatchers("/api/demandes/**").permitAll()
                         .requestMatchers("/api/ilots/**").permitAll()
-                        .requestMatchers("/api/metiers/**").permitAll()
                         .requestMatchers("/api/programmes/**").permitAll()
                         .requestMatchers("/api/demandes_finale/**",
                                 "/api/demandes_delegue/**",
@@ -57,6 +56,9 @@ public class SecurityConfig {
 
                         // accès restreint
                         .requestMatchers("/pages/table-admin").hasRole("admin")
+                        .requestMatchers("/pages/table-controleur").hasRole("controleur")
+                        .requestMatchers("/pages/table-operateur").hasRole("operateur")
+                        .requestMatchers("/pages/table-manager").hasRole("manager")
 
                         // le reste, authentification requise
                         .anyRequest().authenticated()

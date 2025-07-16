@@ -75,4 +75,5 @@ public class MachineController {
         }
     }
 
+    // (No changes needed for MachineController, but if you want to test Ilot API, use /api/ilots endpoint in browser or Postman)
 }

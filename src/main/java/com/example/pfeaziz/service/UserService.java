@@ -37,7 +37,7 @@ public class UserService {
     }
 
     public void saveUser(App_user user) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        appUserRepository.save(user);
     }
 
     public void deleteUser(Long id) {
@@ -48,19 +48,31 @@ public class UserService {
         // ...existing code to set username/password...
 
         // Assign default role if none set
-        if (user.getUser_roles() == null || user.getUser_roles().isEmpty()) {
+        if (user.getRoles() == null || user.getRoles().isEmpty()) {
             User_Role defaultRole = userRoleRepository.findByRoleName("ROLE_USER");
             if (defaultRole == null) {
-                // This should not happen as roles are initialized at application startup
-                // But handle it just in case
                 defaultRole = new User_Role();
                 defaultRole.setRoleName("ROLE_USER");
-                userRoleRepository.save(defaultRole);
+                defaultRole = userRoleRepository.save(defaultRole);
             }
-            user.setUser_roles(List.of(defaultRole));
+            user.setRoles(List.of(defaultRole));
+        } else {
+            // Ensure roles are managed entities
+            List<User_Role> managedRoles = user.getRoles().stream()
+                .map(role -> role.getId() != null ? userRoleRepository.findById(role.getId()).orElse(null) : null)
+                .filter(r -> r != null)
+                .toList();
+            user.setRoles(managedRoles);
         }
 
-        // ...save user...
         return appUserRepository.save(user);
+    }
+
+    public List<App_user> findAll() {
+        return appUserRepository.findAll();
+    }
+
+    public List<App_user> getAllUsers() {
+        return appUserRepository.findAll();
     }
 }

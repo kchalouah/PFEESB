@@ -5,6 +5,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import jakarta.persistence.*;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Date;
 
 @Entity
 public class App_user implements UserDetails {
@@ -17,17 +19,29 @@ public class App_user implements UserDetails {
 
     private String password;
 
+    private String email;
+
+    private String firstName;
+
+    private String lastName;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createdAt;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date updatedAt;
+
     @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Collection<User_Role> user_roles;
+    private Collection<User_Role> roles;
 
     // Getters and Setters
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return user_roles;
+        return roles;
     }
 
     @Override
@@ -76,11 +90,63 @@ public class App_user implements UserDetails {
         this.password = password;
     }
 
-    public Collection<User_Role> getUser_roles() {
-        return user_roles;
+    public Collection<User_Role> getRoles() {
+        return roles;
     }
 
-    public void setUser_roles(Collection<User_Role> user_roles) {
-        this.user_roles = user_roles;
+    public void setRoles(Collection<User_Role> roles) {
+        this.roles = roles;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Date getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Date updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    // Ensure all fields are set in constructor
+    public App_user() {
+        this.username = "";
+        this.email = "";
+        this.password = "";
+        this.firstName = "";
+        this.lastName = "";
+        this.createdAt = new Date();
+        this.updatedAt = new Date();
+        this.roles = Collections.emptyList();
     }
 }
