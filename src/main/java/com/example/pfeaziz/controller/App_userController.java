@@ -137,6 +137,45 @@ public class App_userController {
         return ResponseEntity.noContent().build();
     }
 
+    @PostMapping("/change-password")
+    public ResponseEntity<Map<String, Object>> changePassword(@RequestBody Map<String, String> passwordData) {
+        Map<String, Object> response = new HashMap<>();
+
+        String username = passwordData.get("username");
+        String currentPassword = passwordData.get("currentPassword");
+        String newPassword = passwordData.get("newPassword");
+
+        if (username == null || currentPassword == null || newPassword == null) {
+            response.put("message", "All fields are required");
+            return ResponseEntity.badRequest().body(response);
+        }
+
+        Optional<App_user> userOpt = userService.findByUsername(username);
+        if (userOpt.isEmpty()) {
+            response.put("message", "User not found");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+        }
+
+        App_user user = userOpt.get();
+        if (!Objects.equals(user.getPassword(), currentPassword)) {
+            response.put("message", "Current password is incorrect");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+        }
+
+        user.setPassword(newPassword);
+        userService.saveUser(user);
+
+        response.put("message", "Password changed successfully");
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/by-username/{username}")
+    public ResponseEntity<App_user> getUserByUsername(@PathVariable String username) {
+        Optional<App_user> user = userService.findByUsername(username);
+        return user.map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
     @GetMapping("/roles")
     public ResponseEntity<List<User_Role>> getAllRoles() {
         return ResponseEntity.ok(roleService.getAllRoles());

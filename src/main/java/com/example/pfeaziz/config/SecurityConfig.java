@@ -47,6 +47,7 @@ public class SecurityConfig {
                         // endpoints publics
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/api/machines/**").permitAll()
+                        .requestMatchers("/api/demandes").permitAll()
                         .requestMatchers("/api/demandes/**").permitAll()
                         .requestMatchers("/api/ilots/**").permitAll()
                         .requestMatchers("/api/programmes/**").permitAll()
@@ -88,6 +89,8 @@ public class SecurityConfig {
         config.setAllowedOrigins(List.of("http://localhost:4200"));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
+        config.setAllowCredentials(true);
+        config.setExposedHeaders(List.of("Authorization"));
 
         var source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);

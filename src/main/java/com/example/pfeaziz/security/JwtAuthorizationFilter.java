@@ -2,7 +2,7 @@ package com.example.pfeaziz.security;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.filter.OncePerRequestFilter;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -10,7 +10,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class JwtAuthorizationFilter extends UsernamePasswordAuthenticationFilter {
+public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
     private final JwtTokenProvider jwtTokenProvider;
 
@@ -18,6 +18,7 @@ public class JwtAuthorizationFilter extends UsernamePasswordAuthenticationFilter
         this.jwtTokenProvider = jwtTokenProvider;
     }
 
+    @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws IOException, ServletException {
 
@@ -26,7 +27,7 @@ public class JwtAuthorizationFilter extends UsernamePasswordAuthenticationFilter
         if (token != null && token.startsWith("Bearer ")) {
             token = token.substring(7);
             if (jwtTokenProvider.validateToken(token)) {
-                Authentication authentication = (Authentication) jwtTokenProvider.getAuthentication(token);
+                Authentication authentication = jwtTokenProvider.getAuthentication(token);
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
         }

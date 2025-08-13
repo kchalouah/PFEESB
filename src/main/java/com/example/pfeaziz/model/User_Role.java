@@ -1,6 +1,8 @@
 package com.example.pfeaziz.model;
 
 import org.springframework.security.core.GrantedAuthority;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -51,7 +53,13 @@ public class User_Role implements GrantedAuthority {
     }
 
     @Override
+    @JsonIgnore
     public String getAuthority() {
+        return roleName;
+    }
+
+    @JsonProperty("authority")
+    public String getAuthorityForJson() {
         return roleName;
     }
 }

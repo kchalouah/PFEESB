@@ -24,43 +24,36 @@ public class DemandeController {
     @Autowired
     private DemandeService demandeService;
 
-    // 🟢 Get all
     @GetMapping
     public List<Demande> getAllDemandes() {
         return demandeService.getAllDemandes();
     }
 
-    // 🟡 Get by ID
     @GetMapping("/{id}")
     public Demande getDemandeById(@PathVariable Long id) {
         return demandeService.getDemandeById(id);
     }
 
-    // 🟢 Create one
     @PostMapping
     public Demande createDemande(@RequestBody Demande demande) {
         return demandeService.createDemande(demande);
     }
 
-    // 🟠 Update
     @PutMapping("/{id}")
     public Demande updateDemande(@PathVariable Long id, @RequestBody Demande demande) {
         return demandeService.updateDemande(id, demande);
     }
 
-    // 🔴 Delete
     @DeleteMapping("/{id}")
     public void deleteDemande(@PathVariable Long id) {
         demandeService.deleteDemande(id);
     }
 
-    // 📥 Batch creation
     @PostMapping("/batch")
     public List<Demande> createBatchDemandes(@RequestBody List<Demande> demandes) {
         return demandeService.createBatchDemandes(demandes);
     }
 
-    // 📤 Export to Excel
     @GetMapping("/excel")
     public ResponseEntity<InputStreamResource> exportDemandesToExcel() throws IOException {
         List<Demande> demandes = demandeService.getAllDemandes();
@@ -80,7 +73,7 @@ public class DemandeController {
                 header.createCell(i).setCellValue(columns[i]);
             }
 
-            // Data rows
+            // Rows
             int rowNum = 1;
             for (Demande d : demandes) {
                 Row row = sheet.createRow(rowNum++);
@@ -99,7 +92,7 @@ public class DemandeController {
                 row.createCell(12).setCellValue(d.getControleur() != null ? d.getControleur().getUsername() : "N/A");
             }
 
-            // Output stream
+            // Output
             ByteArrayOutputStream out = new ByteArrayOutputStream();
             workbook.write(out);
 
@@ -113,7 +106,6 @@ public class DemandeController {
         }
     }
 
-    // Utility method to convert nulls to "N/A"
     private String nullToNA(String value) {
         return (value != null && !value.isBlank()) ? value : "N/A";
     }
