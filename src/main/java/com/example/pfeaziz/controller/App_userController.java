@@ -52,6 +52,25 @@ public class App_userController {
             return ResponseEntity.notFound().build();
         }
         user.setId(id);
+
+        // Always fetch roles from DB to avoid detached entities
+        if (user.getRoles() != null && !user.getRoles().isEmpty()) {
+            List<User_Role> attachedRoles = user.getRoles().stream()
+                    .map(role -> roleService.getRoleById(role.getId()))
+                    .filter(Objects::nonNull)
+                    .collect(Collectors.toList());
+            user.setRoles(attachedRoles);
+        } else {
+            // Assign default ROLE_USER if no roles are provided
+            User_Role defaultRole = roleService.getRoleByName("ROLE_USER");
+            if (defaultRole == null) {
+                defaultRole = new User_Role();
+                defaultRole.setRoleName("ROLE_USER");
+                defaultRole = roleService.saveRole(defaultRole);
+            }
+            user.setRoles(Collections.singletonList(defaultRole));
+        }
+
         App_user updatedUser = userService.saveUser(user);
         return ResponseEntity.ok(updatedUser);
     }
